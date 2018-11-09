@@ -64,17 +64,23 @@ public class HelloWorldRessource {
 
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
-	public ArrayList<User> getHelloWorld() {
- 
-		return MongoUser.showUsers();
+	public Response getHelloWorld() {
+		ArrayList<User> users = MongoUser.showUsers();
+		if(users == null)
+			return Response.status(404).entity("Not found").build();
+		else	
+			return Response.status(200).entity(users).build();
 	}
 	
 	@Path("/{firstname}")
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
-	public User showUser(@PathParam("firstname") String f) {
-
-		return MongoUser.showUser(f);
+	public Response showUser(@PathParam("firstname") String f) {
+		User user = MongoUser.showUser(f);
+		if(user == null)
+			return Response.status(404).entity("Not found").build();
+		else	
+			return Response.status(200).entity(user).build();
 	}
 	
 	
